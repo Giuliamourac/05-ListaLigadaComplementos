@@ -5,9 +5,11 @@ using namespace std;
 struct NO {
 	int valor;
 	NO* prox;
+	NO* anterior;
 };
 
 NO* primeiro = NULL;
+NO* ultimo = NULL;
 
 // headers
 void menu();
@@ -70,7 +72,7 @@ void menu()
 
 void inicializar()
 {
-	// se a lista já possuir elementos
+	// se a lista jï¿½ possuir elementos
 // libera a memoria ocupada
 	NO* aux = primeiro;
 	while (aux != NULL) {
@@ -116,37 +118,106 @@ void inserirElemento()
 {
 	// aloca memoria dinamicamente para o novo elemento
 	NO* novo = (NO*)malloc(sizeof(NO));
+	NO* atual = primeiro;
+	NO* anterior = NULL;
+
 	if (novo == NULL)
 	{
 		return;
 	}
 
-	cout << "Digite o elemento: ";
+	cout << "Digite um elemento: ";
 	cin >> novo->valor;
 	novo->prox = NULL;
 
-	if (primeiro == NULL)
-	{
-		primeiro = novo;
-	}
-	else
-	{
-		// procura o final da lista
-		NO* aux = primeiro;
-		while (aux->prox != NULL) {
-			aux = aux->prox;
+	while(atual != NULL && atual->valor < novo->valor){
+		anterior = atual;
+		atual = atual->prox;
+
+}		
+
+		if(atual != NULL && atual->valor == novo->valor){
+			cout << "numero existe";
+			free(novo);
+			return;
 		}
-		aux->prox = novo;
-	}
+		if(anterior == NULL){
+			novo->prox = primeiro;
+			primeiro = novo;
+		}
+		else{
+			novo->prox = atual;
+			anterior->prox = novo;
+		}
+
 }
 
 void excluirElemento()
 {
+	int excluir;
+	NO* atual = primeiro;
+	NO* anterior = NULL;
 
+	cout << "Por favor digite o valor que quer excluir: \n";
+	cin >> excluir;
+	
+
+	while (atual != NULL)
+	{
+
+
+		if (atual->valor == excluir)
+		{
+			
+		if (anterior == NULL)
+		{
+			primeiro = atual->prox;
+		}
+		else
+		{
+			anterior->prox = atual->prox;
+		}
+			free(atual);
+			
+			cout << "numero excluido!";
+			return;
+		}		
+		
+		if(atual->valor > excluir)
+		{
+			cout << "numero nao encontrado";
+			return;
+		}
+
+		anterior = atual;
+		atual = atual->prox;
+	}
 }
 
 void buscarElemento()
 {
+	int num;
+	NO* aux = primeiro;
+
+	cout << "Digite o numero que quer buscar: ";
+	cin >> num;
+
+	while(aux != NULL){
+
+		if (aux->valor == num) 
+		{
+			cout << "numero encontrado";
+			return;
+		}
+
+		if(aux->valor > num) 
+		{
+			cout << "numeron nao encontrado";
+			break;
+		}
+
+		aux = aux->prox;
+	}
 
 }
 

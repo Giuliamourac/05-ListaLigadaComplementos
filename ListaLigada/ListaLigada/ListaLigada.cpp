@@ -5,9 +5,11 @@ using namespace std;
 struct NO {
 	int valor;
 	NO* prox;
+	NO* anterior;
 };
 
 NO* primeiro = NULL;
+NO* ultimo = NULL;
 
 // headers
 void menu();
@@ -69,18 +71,20 @@ void menu()
 
 void inicializar()
 {
-	// se a lista já possuir elementos
-// libera a memoria ocupada
+	// se a lista jÃ¡ possuir elementos
+	// libera a memoria ocupada
 	NO* aux = primeiro;
 	while (aux != NULL) {
 		NO* paraExcluir = aux;
+
 		aux = aux->prox;
 		free(paraExcluir);
 	}
 
 	primeiro = NULL;
-	cout << "Lista inicializada \n";
+	ultimo = NULL;
 
+	cout << "Lista inicializada \n";
 }
 
 void exibirQuantidadeElementos() {
@@ -113,7 +117,6 @@ void exibirElementos()
 
 void inserirElemento()
 {
-	// aloca memoria dinamicamente para o novo elemento
 	NO* novo = (NO*)malloc(sizeof(NO));
 	if (novo == NULL)
 	{
@@ -124,29 +127,132 @@ void inserirElemento()
 	cin >> novo->valor;
 	novo->prox = NULL;
 
+	int digitado = novo->valor;
+
+	if (posicaoElemento(novo->valor) != NULL) {
+		cout << "Esse elemento ja existe\n";
+		free(novo);
+		return;
+	}
+
 	if (primeiro == NULL)
 	{
 		primeiro = novo;
+		ultimo = novo;
 	}
 	else
 	{
-		// procura o final da lista
-		NO* aux = primeiro;
-		while (aux->prox != NULL) {
-			aux = aux->prox;
-		}
-		aux->prox = novo;
+		ultimo->prox = novo;
+		ultimo = novo;
 	}
+	cout << "Elemento inserido!";
+}
+void excluirElemento()
+{
+	int excluir;
+	NO* atual = primeiro;
+	NO* anterior = NULL;
+
+	if (primeiro == NULL) {
+		cout << "a lista vazia, nada pra excluir";
+		return;
+	}
+
+	cout << "por favor digite o valor que voce excluir:";
+	cin >> excluir;
+
+	while (atual->valor != excluir)
+	{
+		anterior = atual;
+		atual = atual->prox;
+	}
+
+	if (atual == NULL) {
+		cout << "numero nao existe";
+		return;
+	}
+	
+	if (anterior == NULL) { 
+		primeiro = atual->prox;
+
+		if (primeiro == NULL) {
+			ultimo = NULL;
+		}
+	}
+
+	else {
+		anterior->prox = atual->prox;
+
+		if (atual->prox == NULL) {
+			ultimo = anterior;
+		}
+	}
+
+	free(atual);
+	cout << "numero excluido com sucesso!";
 }
 
 void excluirElemento()
 {
+	int excluir;
+	NO* atual = primeiro;
+	NO* anterior = NULL;
 
+	if (primeiro == NULL) {
+		cout << "a lista vazia";
+		return;
+	}
+
+	cout << "por favor digite o valor que voce quer excluir:";
+	cin >> excluir;
+
+	while (atual->valor != excluir)
+	{
+		anterior = atual;
+		atual = atual->prox;
+	}
+
+	if (atual == NULL) {
+		cout << "numero nao existe";
+		return;
+	}
+	
+	if (anterior == NULL) { 
+		primeiro = atual->prox;
+
+		if (primeiro == NULL) {
+			ultimo = NULL;
+		}
+	}
+
+	else {
+		anterior->prox = atual->prox;
+
+		if (atual->prox == NULL) {
+			ultimo = anterior;
+		}
+	}
+
+	free(atual);
+	cout << "numero excluido!";
 }
 
-void buscarElemento()
+NO* posicaoElemento(int numero)
 {
+	int numero = 0;
 
+	cout << "Digite o numero que quer buscar:";
+	cin >> numero;
+
+	NO* aux = primeiro;
+	while(aux != NULL)
+	{
+		if(aux -> valor = numero)
+		{
+			break;
+		}
+
+		aux = aux -> prox; 
+	}
+	return aux;
 }
-
-
