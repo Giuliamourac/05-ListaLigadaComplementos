@@ -191,7 +191,6 @@ void excluirElemento()
 	free(atual);
 	cout << "numero excluido com sucesso!";
 }
-
 void excluirElemento()
 {
 	int excluir;
@@ -199,11 +198,11 @@ void excluirElemento()
 	NO* anterior = NULL;
 
 	if (primeiro == NULL) {
-		cout << "a lista vazia";
+		cout << "a lista vazia, nada pra excluir...";
 		return;
 	}
 
-	cout << "por favor digite o valor que voce quer excluir:";
+	cout << "digite o valor que voce quer excluir: ";
 	cin >> excluir;
 
 	while (atual->valor != excluir)
@@ -213,7 +212,7 @@ void excluirElemento()
 	}
 
 	if (atual == NULL) {
-		cout << "numero nao existe";
+		cout << "numero nao existe na lista";
 		return;
 	}
 	
@@ -234,14 +233,31 @@ void excluirElemento()
 	}
 
 	free(atual);
-	cout << "numero excluido!";
+	cout << "numero excluido com sucesso!\n";
+}
+
+void buscarElemento()
+{
+	int digitado;
+
+	cout << "Digite o elemento: ";
+	cin >> digitado;
+
+	NO* pos = posicaoElemento(digitado);
+
+	if (pos == NULL) {
+		cout << "numero n encontrado";
+	}
+	else {
+		cout << "numero encontrado";
+	}
 }
 
 NO* posicaoElemento(int numero)
 {
 	int numero = 0;
 
-	cout << "Digite o numero que quer buscar:";
+	cout << "digite o numero que quer buscar:";
 	cin >> numero;
 
 	NO* aux = primeiro;
